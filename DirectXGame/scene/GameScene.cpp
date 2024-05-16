@@ -4,16 +4,24 @@
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() {}
+GameScene::~GameScene() {
+	delete model_;
+	delete player_;
+}
 
 void GameScene::Initialize() {
-
+	model_ = Model::Create();
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
+	viewProjection_.Initialize();
+	player_ = new Player();
+	player_->Initialize(model_, TextureManager::Load("uvChecker.png"), &viewProjection_);
 }
 
-void GameScene::Update() {}
+void GameScene::Update() {
+	player_->Update();
+}
 
 void GameScene::Draw() {
 
@@ -41,6 +49,8 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+
+	player_->Draw();
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
