@@ -77,8 +77,10 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+	/// 
 	model_->Draw(worldTransform_, debugCamera_->GetViewProjection(), texureHandle_);
 	PrimitiveDrawer::GetInstance()->DrawLine3d({0, 0, 0}, {0, 10, 0}, {1.0f, 0.0f, 0.0f, 1.0f});
+
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
