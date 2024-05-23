@@ -45,7 +45,7 @@ void GameScene::Initialize() {
 	viewProjecion.Initialize();
 	modelBlock_ = Model::Create();
 	debugCamera_ = new DebugCamera(1280, 720);
-	
+	debugCamera_->SetFarZ(1200.0f);
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
 	skydome_ = new Skydome();
 	skydome_->Initialize(modelSkydome_, &viewProjecion);
