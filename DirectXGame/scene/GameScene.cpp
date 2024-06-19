@@ -34,6 +34,9 @@ void GameScene::Initialize() {
 	mapChipField_ = new MapChipField;
 	mapChipField_->LoadMapChipCsv("Resources/map.csv");
 	GenerateBlocks();
+	modelPlayer_ = Model::Create();
+	player_ = new Player();
+	player_->Initialize(modelPlayer_, &viewProjecion, mapChipField_->GetMapChipPositionByIndex(2, 10));
 }
 
 void GameScene::Update() {
@@ -65,6 +68,7 @@ void GameScene::Update() {
 	}
 	#endif
 	skydome_->Update();
+	player_->Update();
 }
 
 void GameScene::Draw() {
@@ -102,6 +106,7 @@ void GameScene::Draw() {
 			modelBlock_->Draw(*worldTransformBlock, viewProjecion);
 		}
 	}
+	player_->Draw();
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
