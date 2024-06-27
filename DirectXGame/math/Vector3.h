@@ -11,6 +11,9 @@ public:
 		y += a.y;
 		z += a.z;
 	}
+	Vector3 operator+(const Vector3& a) {
+		return Vector3(x + a.x, y + a.y, z + a.z);
+	}
 
 	float x;
 	float y;

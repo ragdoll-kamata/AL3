@@ -20,6 +20,9 @@ public:
 
 	float Lape(float strat, float end, float t);
 
+	WorldTransform* GetWorldTransfoam() { return &worldTransform; }
+	const Vector3& GetVelocity() const { return velocity_; }
+
 private:
 
 	WorldTransform worldTransform;
