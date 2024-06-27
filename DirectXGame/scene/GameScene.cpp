@@ -17,6 +17,7 @@ GameScene::~GameScene() {
 	delete skydome_;
 	delete mapChipField_;
 	delete player_;
+	delete cameraController_;
 }
 
 void GameScene::Initialize() {
@@ -26,7 +27,7 @@ void GameScene::Initialize() {
 	audio_ = Audio::GetInstance();
 
 	viewProjecion.Initialize();
-	modelBlock_ = Model::Create();
+	modelBlock_ = Model::CreateFromOBJ("block", true);
 	debugCamera_ = new DebugCamera(1280, 720);
 	debugCamera_->SetFarZ(1200.0f);
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
@@ -35,10 +36,10 @@ void GameScene::Initialize() {
 	mapChipField_ = new MapChipField;
 	mapChipField_->LoadMapChipCsv("Resources/map.csv");
 	GenerateBlocks();
-	modelPlayer_ = Model::Create();
+	modelPlayer_ = Model::CreateFromOBJ("player", true);
 	player_ = new Player();
-	player_->Initialize(modelPlayer_, &viewProjecion, mapChipField_->GetMapChipPositionByIndex(2, 10));
-
+	player_->Initialize(modelPlayer_, &viewProjecion, mapChipField_->GetMapChipPositionByIndex(2, 15));
+	player_->SetMapChipField(mapChipField_);
 	cameraController_ = new CameraController();
 	cameraController_->SetViewProjection(&viewProjecion);
 	cameraController_->SetPlayer(player_);
