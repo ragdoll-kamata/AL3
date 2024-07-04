@@ -293,7 +293,7 @@ void Player::WallTouchProcess(const CollisionMapInfo& info) {
 }
 
 void Player::Draw() { 
-	model_->Draw(worldTransform, *viewProjection_, textureHandle_); 
+	model_->Draw(worldTransform, *viewProjection_); 
 }
 
 float Player::Lape(float strat, float end, float t) { 

@@ -68,7 +68,6 @@ private:
 	WorldTransform worldTransform;
 	Model* model_ = nullptr;
 	ViewProjection* viewProjection_;
-	uint32_t textureHandle_ = 0u;
 	LRDirection lrDierction = LRDirection::kRight;
 	Vector3 velocity_ = {};
 
