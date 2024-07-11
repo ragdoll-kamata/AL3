@@ -47,6 +47,8 @@ public: // メンバ関数
 
 	void GenerateBlocks();
 
+	void CheckAllCollisns();
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -67,7 +69,7 @@ private: // メンバ変数
 	Player* player_ = nullptr;
 
 	Model* modelEnemy_ = nullptr;
-	Enemy* enemy_ = nullptr;
+	std::list<Enemy*> enemies_;
 
 	CameraController* cameraController_ = nullptr;
 

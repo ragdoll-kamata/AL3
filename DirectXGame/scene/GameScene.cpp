@@ -45,9 +45,13 @@ void GameScene::Initialize() {
 	cameraController_->SetViewProjection(&viewProjecion);
 	cameraController_->SetPlayer(player_);
 	cameraController_->Reset();
-	enemy_ = new Enemy();
+
 	modelEnemy_ = Model::CreateFromOBJ("enemy", true);
-	enemy_->Initialize(modelEnemy_, &viewProjecion, mapChipField_->GetMapChipPositionByIndex(10, 15));
+	for (int32_t i = 0; i < 3; i++) {
+		Enemy* enemy = new Enemy();
+		enemy->Initialize(modelEnemy_, &viewProjecion, mapChipField_->GetMapChipPositionByIndex(20 + i, 18 - i));
+		enemies_.push_back(enemy);
+	}
 }
 
 void GameScene::Update() {
@@ -80,7 +84,13 @@ void GameScene::Update() {
 	#endif
 	skydome_->Update();
 	player_->Update();
-	enemy_->Update();
+
+	for (Enemy* enemy : enemies_) {
+		enemy->Update();
+	}
+
+	CheckAllCollisns();
+
 	cameraController_->Updata();
 }
 
@@ -120,7 +130,9 @@ void GameScene::Draw() {
 		}
 	}
 	player_->Draw();
-	enemy_->Draw();
+	for (Enemy* enemy : enemies_) {
+		enemy->Draw();
+	}
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
@@ -160,6 +172,21 @@ void GameScene::GenerateBlocks() {
 		}
 	}
 
+
+
+}
+
+void GameScene::CheckAllCollisns() {
+	AABB aabb1, aabb2;
+	aabb1 = player_->GetAABB();
+	for (Enemy* enemy : enemies_) {
+		
+		aabb2 = enemy->GetAABB();
+		if (AABBCollision(aabb1, aabb2)) {
+			player_->OnCollision(enemy);
+			enemy->OnCollision(player_);
+		}
+	}
 
 
 }

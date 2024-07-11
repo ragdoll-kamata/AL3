@@ -3,8 +3,10 @@
 #include "WorldTransform.h"
 #include "Model.h"
 #include "input.h"
+#include "AABB.h"
 
 class MapChipField;
+class Enemy;
 
 enum class LRDirection {
 	kRight,
@@ -63,6 +65,12 @@ public:
 
 	Vector3 CornerPosition(const Vector3& center, Corner corner);
 	
+	Vector3 GetWorldPosition();
+
+	AABB GetAABB();
+
+	void OnCollision(const Enemy* enemy);
+
 private:
 
 	WorldTransform worldTransform;

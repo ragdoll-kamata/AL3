@@ -5,6 +5,8 @@
 #include <algorithm>
 #include <numbers>
 #include "DebugText.h"
+#include "Enemy.h"
+
 Player::Player() {}
 
 Player::~Player() {}
@@ -309,5 +311,36 @@ Vector3 Player::CornerPosition(const Vector3& center, Corner corner) {
 	};
 
 	return offsetTable[static_cast<int>(corner)] + center;
+}
+
+Vector3 Player::GetWorldPosition() { 
+	Vector3 worldPos;
+
+	worldPos.x = worldTransform.matWorld_.m[3][0];
+	worldPos.y = worldTransform.matWorld_.m[3][1];
+	worldPos.z = worldTransform.matWorld_.m[3][2];
+
+	return worldPos;
+}
+
+AABB Player::GetAABB() {
+
+	Vector3 worldPos = GetWorldPosition();
+
+	AABB aabb;
+
+	aabb.min = {worldPos.x - kWidth / 2.0f, worldPos.y - kHeight / 2.0f, worldPos.z - kWidth / 2.0f};
+
+	aabb.max = {worldPos.x + kWidth / 2.0f, worldPos.y + kHeight / 2.0f, worldPos.z + kWidth / 2.0f};
+
+	return aabb;
+}
+
+void Player::OnCollision(const Enemy* enemy) {
+	Vector3 velocity = enemy->GetVelocity() + enemy->GetVelocity();
+
+	velocity.y = 0.7f;
+
+	velocity_ = velocity;
 }
 
