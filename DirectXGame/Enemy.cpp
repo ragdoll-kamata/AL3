@@ -29,7 +29,8 @@ void Enemy::Update() {
 }
 
 void Enemy::Draw() {
-	model_->Draw(worldTransform, *viewProjection_); }
+	model_->Draw(worldTransform, *viewProjection_); 
+}
 
 Vector3 Enemy::GetWorldPosition() {
 	Vector3 worldPos;

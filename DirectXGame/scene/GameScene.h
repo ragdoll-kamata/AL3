@@ -13,6 +13,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "CameraController.h"
+#include "DeathParticles.h"
 
 /// <summary>
 /// ゲームシーン
@@ -72,6 +73,10 @@ private: // メンバ変数
 	std::list<Enemy*> enemies_;
 
 	CameraController* cameraController_ = nullptr;
+
+	Model* modelDeathParticles_ = nullptr;
+	DeathParticles* deathParticles_ = nullptr;
+
 
 	/// <summary>
 	/// ゲームシーン用

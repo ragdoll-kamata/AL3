@@ -19,6 +19,12 @@ GameScene::~GameScene() {
 	delete modelPlayer_;
 	delete player_;
 	delete cameraController_;
+	delete modelEnemy_;
+	for (Enemy* enemy : enemies_) {
+		delete enemy;
+	}
+	delete modelDeathParticles_;
+	delete deathParticles_;
 }
 
 void GameScene::Initialize() {
@@ -52,6 +58,11 @@ void GameScene::Initialize() {
 		enemy->Initialize(modelEnemy_, &viewProjecion, mapChipField_->GetMapChipPositionByIndex(20 + i, 18 - i));
 		enemies_.push_back(enemy);
 	}
+
+	modelDeathParticles_ = Model::CreateFromOBJ("deathParticle", true);
+
+	deathParticles_ = new DeathParticles();
+	deathParticles_->Initialize(modelDeathParticles_, &viewProjecion, mapChipField_->GetMapChipPositionByIndex(2, 15));
 }
 
 void GameScene::Update() {
@@ -87,6 +98,10 @@ void GameScene::Update() {
 
 	for (Enemy* enemy : enemies_) {
 		enemy->Update();
+	}
+
+	if (deathParticles_ != nullptr) {
+		deathParticles_->Updata();
 	}
 
 	CheckAllCollisns();
@@ -132,6 +147,10 @@ void GameScene::Draw() {
 	player_->Draw();
 	for (Enemy* enemy : enemies_) {
 		enemy->Draw();
+	}
+
+	if (deathParticles_ != nullptr) {
+		deathParticles_->Draw();
 	}
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
