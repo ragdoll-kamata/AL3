@@ -18,6 +18,7 @@ void Player::Initialize(Model* model, ViewProjection* viewProjection, const Vect
 	viewProjection_ = viewProjection;
 	worldTransform.Initialize();
 	worldTransform.translation_ = position;
+	worldTransform.rotation_.y = std::numbers::pi_v<float> / 2.0f;
 }
 
 void Player::Update() { 
@@ -337,10 +338,8 @@ AABB Player::GetAABB() {
 }
 
 void Player::OnCollision(const Enemy* enemy) {
-	Vector3 velocity = enemy->GetVelocity() + enemy->GetVelocity();
-
-	velocity.y = 0.7f;
-
-	velocity_ = velocity;
+	(void)enemy;
+	isDead_ = true;
+	
 }
 

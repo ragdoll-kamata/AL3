@@ -1,5 +1,5 @@
 #pragma once
-
+#include "Scene.h"
 #include "Audio.h"
 #include "DirectXCommon.h"
 #include "Input.h"
@@ -15,10 +15,15 @@
 #include "CameraController.h"
 #include "DeathParticles.h"
 
+enum class Phase {
+	kPlay,
+	kDeath,
+};
+
 /// <summary>
 /// ゲームシーン
 /// </summary>
-class GameScene {
+class GameScene : public Scene {
 
 public: // メンバ関数
 	/// <summary>
@@ -34,21 +39,23 @@ public: // メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize();
+	void Initialize() override;
 
 	/// <summary>
 	/// 毎フレーム処理
 	/// </summary>
-	void Update();
+	void Update() override;
 
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw();
+	void Draw() override;
 
 	void GenerateBlocks();
 
 	void CheckAllCollisns();
+
+	void ChangePhase();
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -77,6 +84,7 @@ private: // メンバ変数
 	Model* modelDeathParticles_ = nullptr;
 	DeathParticles* deathParticles_ = nullptr;
 
+	Phase phase_;
 
 	/// <summary>
 	/// ゲームシーン用

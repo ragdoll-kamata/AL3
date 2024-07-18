@@ -71,6 +71,8 @@ public:
 
 	void OnCollision(const Enemy* enemy);
 
+	bool IsDead() const { return isDead_; } 
+
 private:
 
 	WorldTransform worldTransform;
@@ -83,6 +85,8 @@ private:
 	float turnTimer_ = 0.0f;
 
 	bool onGround_ = true;
+
+	bool isDead_ = false;
 
 	MapChipField* mapChipField_ = nullptr;
 

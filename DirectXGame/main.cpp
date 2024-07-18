@@ -7,6 +7,19 @@
 #include "TextureManager.h"
 #include "WinApp.h"
 
+#include "TitleScene.h"
+
+Scene* scene = nullptr;
+enum class SceneSelect {
+	kUnknown = 0,
+
+	kTitle,
+	kGame,
+};
+SceneSelect sceneSelect = SceneSelect::kUnknown;
+
+void ChanfeScen();
+
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	WinApp* win = nullptr;
@@ -16,7 +29,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Audio* audio = nullptr;
 	AxisIndicator* axisIndicator = nullptr;
 	PrimitiveDrawer* primitiveDrawer = nullptr;
-	GameScene* gameScene = nullptr;
+	
 
 	// ゲームウィンドウの作成
 	win = WinApp::GetInstance();
@@ -58,8 +71,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma endregion
 
 	// ゲームシーンの初期化
-	gameScene = new GameScene();
-	gameScene->Initialize();
+	sceneSelect = SceneSelect::kTitle;
+	scene = new TitleScene();
+	scene->Initialize();
 
 	// メインループ
 	while (true) {
@@ -73,7 +87,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// 入力関連の毎フレーム処理
 		input->Update();
 		// ゲームシーンの毎フレーム処理
-		gameScene->Update();
+		scene->Update();
 		// 軸表示の更新
 		axisIndicator->Update();
 		// ImGui受付終了
@@ -82,7 +96,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		// 描画開始
 		dxCommon->PreDraw();
 		// ゲームシーンの描画
-		gameScene->Draw();
+		scene->Draw();
 		// 軸表示の描画
 		axisIndicator->Draw();
 		// プリミティブ描画のリセット
@@ -91,10 +105,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		imguiManager->Draw();
 		// 描画終了
 		dxCommon->PostDraw();
+
+		ChanfeScen();
 	}
 
 	// 各種解放
-	delete gameScene;
+	delete scene;
 	// 3Dモデル解放
 	Model::StaticFinalize();
 	audio->Finalize();
@@ -105,4 +121,29 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	win->TerminateGameWindow();
 
 	return 0;
+}
+
+void ChanfeScen() {
+	switch (sceneSelect) {
+	case SceneSelect::kTitle:
+		if (scene->IsFinished()) {
+			sceneSelect = SceneSelect::kGame;
+			delete scene;
+			scene = nullptr;
+			scene = new GameScene;
+			scene->Initialize();
+		}
+		break;
+	case SceneSelect::kGame:
+		if (scene->IsFinished()) {
+			sceneSelect = SceneSelect::kTitle;
+			delete scene;
+			scene = nullptr;
+			scene = new TitleScene;
+			scene->Initialize();
+		}
+		break;
+	default:
+		break;
+	}
 }
