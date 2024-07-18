@@ -134,7 +134,7 @@ void GameScene::Update() {
 				worldTransformBlock->UpdateMatrix();
 			}
 		}
-
+		finished_ = deathParticles_->IsFinished();
 		break;
 	}
 	ChangePhase();
