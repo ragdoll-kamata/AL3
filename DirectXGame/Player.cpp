@@ -133,10 +133,16 @@ void Player::MapCollisionTop(CollisionMapInfo& info) {
 	if (mapChipType == MapChipType::kBlock) {
 		hit = true;
 	}
+	if (mapChipType == MapChipType::kClearPoint) {
+		isClear = true;
+	}
 	indexSet = mapChipField_->GetMapChipIndexSetByPosition(positionNew[kRightTop]);
 	mapChipType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
 	if (mapChipType == MapChipType::kBlock) {
 		hit = true;
+	}
+	if (mapChipType == MapChipType::kClearPoint) {
+		isClear = true;
 	}
 	if (hit) {
 		indexSet = mapChipField_->GetMapChipIndexSetByPosition(positionNew[kRightTop]);
@@ -167,10 +173,16 @@ void Player::MapCollisionBottom(CollisionMapInfo& info) {
 	if (mapChipType == MapChipType::kBlock) {
 		hit = true;
 	}
+	if (mapChipType == MapChipType::kClearPoint) {
+		isClear = true;
+	}
 	indexSet = mapChipField_->GetMapChipIndexSetByPosition(positionNew[kRightBottom]);
 	mapChipType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
 	if (mapChipType == MapChipType::kBlock) {
 		hit = true;
+	}
+	if (mapChipType == MapChipType::kClearPoint) {
+		isClear = true;
 	}
 	if (hit) {
 		indexSet = mapChipField_->GetMapChipIndexSetByPosition(positionNew[kRightBottom]);
@@ -201,10 +213,16 @@ void Player::MapCollisionLeft(CollisionMapInfo& info) {
 	if (mapChipType == MapChipType::kBlock) {
 		hit = true;
 	}
+	if (mapChipType == MapChipType::kClearPoint) {
+		isClear = true;
+	}
 	indexSet = mapChipField_->GetMapChipIndexSetByPosition(positionNew[kLeftTop]);
 	mapChipType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
 	if (mapChipType == MapChipType::kBlock) {
 		hit = true;
+	}
+	if (mapChipType == MapChipType::kClearPoint) {
+		isClear = true;
 	}
 	if (hit) {
 		indexSet = mapChipField_->GetMapChipIndexSetByPosition(positionNew[kLeftBottom]);
@@ -235,10 +253,16 @@ void Player::MapCollisionRight(CollisionMapInfo& info) {
 	if (mapChipType == MapChipType::kBlock) {
 		hit = true;
 	}
+	if (mapChipType == MapChipType::kClearPoint) {
+		isClear = true;
+	}
 	indexSet = mapChipField_->GetMapChipIndexSetByPosition(positionNew[kRightTop]);
 	mapChipType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
 	if (mapChipType == MapChipType::kBlock) {
 		hit = true;
+	}
+	if (mapChipType == MapChipType::kClearPoint) {
+		isClear = true;
 	}
 	if (hit) {
 		indexSet = mapChipField_->GetMapChipIndexSetByPosition(positionNew[kRightTop]);

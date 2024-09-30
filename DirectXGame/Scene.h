@@ -27,7 +27,9 @@ public:
 	virtual void Draw();
 
 	bool IsFinished() const { return finished_; }
+	bool IsClear() const { return isClear_; }
 
 protected:
 	bool finished_;
+	bool isClear_;
 };

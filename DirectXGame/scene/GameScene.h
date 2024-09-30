@@ -63,8 +63,10 @@ private: // メンバ変数
 	Audio* audio_ = nullptr;
 
 	std::vector<std::vector<WorldTransform*>> worldTransformBlocks_;
+	WorldTransform GoolTransform;
 	ViewProjection viewProjecion;
 	Model* modelBlock_ = nullptr;
+	Model* modelGoal_ = nullptr;
 
 	bool isDebugCameraActice_ = false;
 	DebugCamera* debugCamera_ = nullptr;

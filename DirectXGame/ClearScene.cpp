@@ -1,13 +1,12 @@
-#include "TitleScene.h"
-#include <numbers>
+#include "ClearScene.h"
 #include <cmath>
-TitleScene::TitleScene() {}
+#include <numbers>
 
-TitleScene::~TitleScene() {
-	delete modelTitle_;
-}
+ClearScene::ClearScene() {}
 
-void TitleScene::Initialize() {
+ClearScene::~ClearScene() { delete modelGameClear_; }
+
+void ClearScene::Initialize() {
 
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
@@ -17,11 +16,11 @@ void TitleScene::Initialize() {
 	worldTransform.Initialize();
 	viewProjecion.translation_.z = -10.0f;
 	viewProjecion.UpdateMatrix();
-	modelTitle_ = Model::CreateFromOBJ("Title", true);
+	modelGameClear_ = Model::CreateFromOBJ("GameClear", true);
 }
 
-void TitleScene::Update() { 
-	if (input_->TriggerKey(DIK_SPACE)) {
+void ClearScene::Update() {
+	if (input_->PushKey(DIK_SPACE)) {
 		finished_ = true;
 	}
 	radian += std::numbers::pi_v<float> / 60.0f;
@@ -29,7 +28,7 @@ void TitleScene::Update() {
 	worldTransform.UpdateMatrix();
 }
 
-void TitleScene::Draw() {
+void ClearScene::Draw() {
 
 	// コマンドリストの取得
 	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
@@ -51,11 +50,11 @@ void TitleScene::Draw() {
 #pragma region 3Dオブジェクト描画
 	// 3Dオブジェクト描画前処理
 	Model::PreDraw(commandList);
-	
+
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
-	modelTitle_->Draw(worldTransform, viewProjecion); 
+	modelGameClear_->Draw(worldTransform, viewProjecion);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();

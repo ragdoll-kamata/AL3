@@ -6,7 +6,8 @@
 
 enum class MapChipType {
 	kBlank,
-	kBlock
+	kBlock,
+	kClearPoint,
 };
 struct MapChipData {
 	std::vector<std::vector<MapChipType>> data;

@@ -8,6 +8,8 @@
 #include "WinApp.h"
 
 #include "TitleScene.h"
+#include "ClearScene.h"
+#include "OverScene.h"
 
 Scene* scene = nullptr;
 enum class SceneSelect {
@@ -15,10 +17,12 @@ enum class SceneSelect {
 
 	kTitle,
 	kGame,
+	kGameClear,
+	kGameOver,
 };
 SceneSelect sceneSelect = SceneSelect::kUnknown;
 
-void ChanfeScen();
+void ChangeScene();
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -33,7 +37,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// ゲームウィンドウの作成
 	win = WinApp::GetInstance();
-	win->CreateGameWindow(L"LE2C_09_オジマ_アキト_AL3");
+	win->CreateGameWindow(L"追加試験");
 
 	// DirectX初期化処理
 	dxCommon = DirectXCommon::GetInstance();
@@ -105,8 +109,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		imguiManager->Draw();
 		// 描画終了
 		dxCommon->PostDraw();
-
-		ChanfeScen();
+		if (scene->IsFinished()) {
+			ChangeScene();
+		}
 	}
 
 	// 各種解放
@@ -123,27 +128,43 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	return 0;
 }
 
-void ChanfeScen() {
+void ChangeScene() {
 	switch (sceneSelect) {
 	case SceneSelect::kTitle:
-		if (scene->IsFinished()) {
-			sceneSelect = SceneSelect::kGame;
-			delete scene;
-			scene = nullptr;
-			scene = new GameScene;
-			scene->Initialize();
-		}
+		sceneSelect = SceneSelect::kGame;
+		delete scene;
+		scene = nullptr;
+		scene = new GameScene;
+		scene->Initialize();
 		break;
 	case SceneSelect::kGame:
-		if (scene->IsFinished()) {
-			sceneSelect = SceneSelect::kTitle;
+		if (scene->IsClear()) {
+			sceneSelect = SceneSelect::kGameClear;
 			delete scene;
 			scene = nullptr;
-			scene = new TitleScene;
+			scene = new ClearScene;
+			scene->Initialize();
+		} else {
+			sceneSelect = SceneSelect::kGameOver;
+			delete scene;
+			scene = nullptr;
+			scene = new OverScene;
 			scene->Initialize();
 		}
 		break;
-	default:
+	case SceneSelect::kGameClear:
+		sceneSelect = SceneSelect::kTitle;
+		delete scene;
+		scene = nullptr;
+		scene = new TitleScene;
+		scene->Initialize();
+		break;
+	case SceneSelect::kGameOver:
+		sceneSelect = SceneSelect::kTitle;
+		delete scene;
+		scene = nullptr;
+		scene = new TitleScene;
+		scene->Initialize();
 		break;
 	}
 }

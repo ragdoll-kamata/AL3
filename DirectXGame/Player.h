@@ -72,6 +72,7 @@ public:
 	void OnCollision(const Enemy* enemy);
 
 	bool IsDead() const { return isDead_; } 
+	bool IsClear() const { return isClear; } 
 
 private:
 
@@ -87,6 +88,7 @@ private:
 	bool onGround_ = true;
 
 	bool isDead_ = false;
+	bool isClear = false;
 
 	MapChipField* mapChipField_ = nullptr;
 

@@ -37,6 +37,7 @@ void GameScene::Initialize() {
 	modelBlock_ = Model::CreateFromOBJ("block", true);
 	debugCamera_ = new DebugCamera(1280, 720);
 	debugCamera_->SetFarZ(1200.0f);
+	modelGoal_ = Model::CreateFromOBJ("goal", true);
 	modelSkydome_ = Model::CreateFromOBJ("skydome", true);
 	skydome_ = new Skydome();
 	skydome_->Initialize(modelSkydome_, &viewProjecion);
@@ -56,6 +57,12 @@ void GameScene::Initialize() {
 	for (int32_t i = 0; i < 3; i++) {
 		Enemy* enemy = new Enemy();
 		enemy->Initialize(modelEnemy_, &viewProjecion, mapChipField_->GetMapChipPositionByIndex(20 + i, 18 - i));
+		enemies_.push_back(enemy);
+	}
+
+	for (int32_t i = 0; i < 3; i++) {
+		Enemy* enemy = new Enemy();
+		enemy->Initialize(modelEnemy_, &viewProjecion, mapChipField_->GetMapChipPositionByIndex(33 + i, 13 - i));
 		enemies_.push_back(enemy);
 	}
 
@@ -102,6 +109,7 @@ void GameScene::Update() {
 				worldTransformBlock->UpdateMatrix();
 			}
 		}
+		GoolTransform.UpdateMatrix();
 
 		CheckAllCollisns();
 
@@ -134,6 +142,7 @@ void GameScene::Update() {
 				worldTransformBlock->UpdateMatrix();
 			}
 		}
+		GoolTransform.UpdateMatrix();
 		finished_ = deathParticles_->IsFinished();
 		break;
 	}
@@ -176,6 +185,9 @@ void GameScene::Draw() {
 				modelBlock_->Draw(*worldTransformBlock, viewProjecion);
 			}
 		}
+		
+		modelGoal_->Draw(GoolTransform, viewProjecion);
+
 		skydome_->Draw();
 
 		player_->Draw();
@@ -193,6 +205,8 @@ void GameScene::Draw() {
 				modelBlock_->Draw(*worldTransformBlock, viewProjecion);
 			}
 		}
+		modelGoal_->Draw(GoolTransform, viewProjecion);
+
 		skydome_->Draw();
 		for (Enemy* enemy : enemies_) {
 			enemy->Draw();
@@ -240,6 +254,11 @@ void GameScene::GenerateBlocks() {
 				worldTransformBlocks_[i][j]->translation_ = mapChipField_->GetMapChipPositionByIndex(j, i);
 				
 			}
+			if (mapChipField_->GetMapChipTypeByIndex(j, i) == MapChipType::kClearPoint) {
+				
+				GoolTransform.Initialize();
+				GoolTransform.translation_ = mapChipField_->GetMapChipPositionByIndex(j, i);
+			}
 		}
 	}
 
@@ -271,14 +290,12 @@ void GameScene::ChangePhase() {
 			deathParticles_ = new DeathParticles();
 			deathParticles_->Initialize(modelDeathParticles_, &viewProjecion, player_->GetWorldPosition());
 		}
+		if (player_->IsClear()) {
+			isClear_ = true;
+			finished_ = true;
+		}
 		break;
 	case Phase::kDeath:
 		break;
 	}
-
-
-
-
-
-
 }
